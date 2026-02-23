@@ -1,0 +1,40 @@
+name: 'Conformal MATLAB Shape Analyzer'
+description: 'Static shape and dimension analysis for MATLAB. Catch matrix dimension errors in PRs.'
+branding:
+  icon: 'grid'
+  color: 'blue'
+inputs:
+  strict:
+    description: 'Show all warnings including low-confidence diagnostics'
+    required: false
+    default: 'false'
+  fixpoint:
+    description: 'Enable iterative loop analysis for better precision'
+    required: false
+    default: 'false'
+  filter_to_diff:
+    description: 'Only comment on lines changed in this PR'
+    required: false
+    default: 'true'
+  fail_on_error:
+    description: 'Fail the check if error-severity warnings are found'
+    required: false
+    default: 'false'
+  paths:
+    description: 'Glob pattern to filter which .m files are analyzed'
+    required: false
+    default: '**/*.m'
+  token:
+    description: 'GitHub token for posting review comments'
+    required: false
+    default: ${{ github.token }}
+outputs:
+  total_warnings:
+    description: 'Total number of warnings found'
+  error_count:
+    description: 'Number of error-severity warnings'
+  files_analyzed:
+    description: 'Number of .m files analyzed'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
