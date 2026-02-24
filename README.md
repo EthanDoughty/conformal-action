@@ -1,6 +1,6 @@
 # Conformal: MATLAB Shape Analysis for Pull Requests
 
-Static shape and dimension analysis for MATLAB. Catches matrix dimension errors in PRs before they reach runtime. No MATLAB license required.
+Static shape and dimension analysis for MATLAB. Conformal catches matrix dimension errors in PRs before they reach runtime. No MATLAB license is required.
 
 ## Quick Start
 
@@ -24,11 +24,7 @@ jobs:
 
 ## What It Does
 
-When a PR changes `.m` files, this action:
-
-1. Analyzes each changed file for shape and dimension errors
-2. Reads sibling `.m` files for cross-file context (function signatures, return shapes)
-3. Posts inline review comments on the PR diff at the exact lines with issues
+When a PR changes `.m` files, this action analyzes each changed file for shape and dimension errors. First, it reads sibling `.m` files in the same directory for cross-file context, including function signatures and return shapes. Second, it runs the shape analysis on each changed file. Finally, it posts inline review comments on the PR diff at the exact lines where issues are found.
 
 Warnings are informational by default. They appear as review comments, not blocking checks.
 
@@ -80,15 +76,7 @@ Warnings are informational by default. They appear as review comments, not block
 
 ## Detected Issues
 
-The analyzer catches:
-
-- Inner dimension mismatches in matrix multiplication (`A * B` where dims don't align)
-- Elementwise operation mismatches (`A .* B` with incompatible shapes)
-- Horizontal/vertical concatenation row/column mismatches
-- Index out of bounds (when bounds can be statically determined)
-- Division by zero (when the divisor is provably zero)
-- Function argument count mismatches
-- Reshape dimension mismatches
+Conformal catches inner dimension mismatches in matrix multiplication (like `A * B` where the dims don't align), element-wise operation mismatches (`A .* B` with incompatible shapes), and horizontal or vertical concatenation row and column mismatches. It can also detect index out of bounds when the bounds can be statically determined, division by zero when the divisor is provably zero, function argument count mismatches, and reshape dimension mismatches.
 
 ## License
 
